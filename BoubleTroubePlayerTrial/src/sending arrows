@@ -1,0 +1,68 @@
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+public class MainMovingSquareTrial {
+    public static void main(String[] args) {
+        int width = 500;
+        int height = 500;
+// initialize the canvas
+        StdDraw.setCanvasSize(width, height);
+        StdDraw.setXscale(0, width);
+        StdDraw.setYscale(0, height);
+        StdDraw.enableDoubleBuffering();
+
+
+        int x = 250;
+        int y = 60;
+        int y1 = 60;
+        int rectHalfSize = 20;
+        int rectHalfHeight = 40;
+
+        // draw the rectangle
+        StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
+        StdDraw.picture(x, y, "player_back.png");
+        StdDraw.show();
+// pause duration to get keyboard inputs
+        int keyboardPauseDuration = 6;
+        StdDraw.setPenRadius(0.5);
+
+        ArrayList<Arrow> arrows = new ArrayList<Arrow>();
+
+        double startTime = System.currentTimeMillis()/1000.0;
+
+// main animation loop
+        while (true) {
+            double time = System.currentTimeMillis()/1000.0-startTime;
+
+            if ((x>15)) {
+                if (StdDraw.isKeyPressed(KeyEvent.VK_LEFT)) {
+// Move the rectangle to the left
+                    StdDraw.pause(keyboardPauseDuration);
+                    x = x - 6;
+                }
+            }
+            if (StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)) {
+// Move right
+                StdDraw.pause(keyboardPauseDuration);
+                x = x +  6;
+            }
+            if (StdDraw.isKeyPressed(KeyEvent.VK_SPACE)) {
+// Makes the rectangle bigger
+                StdDraw.pause(keyboardPauseDuration);
+
+                Arrow arrow = new Arrow(x, System.currentTimeMillis()/1000.0);
+                arrows.add(arrow);
+                y1+=10;
+
+            }
+// clear the screen, draw the rectangle, and show it on the screen
+            StdDraw.clear();
+
+            for (int i = 0; i < arrows.size(); i++) {
+                StdDraw.picture(arrows.get(i).getCurrentX2(), arrows.get(i).getCurrentY2(-30,(System.currentTimeMillis()/1000.0- arrows.get(i).getStartTime()))/2,"arrow.png");
+            }
+            StdDraw.picture(x, y, "player_back.png");
+            StdDraw.show();
+        }
+    }
+}
